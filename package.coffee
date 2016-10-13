@@ -5,7 +5,7 @@
 module.exports =
   name: "SECRET"
 
-  version: "0.1"
+  version: "0.1.0"
   description: "A Secure, Efﬁcient, and Collaborative Real-Time Web Editor"
   private: true
   
@@ -29,6 +29,6 @@ module.exports =
     mysql: "~2.1.1"
   
   devDependencies:
-    "uglify-js": "~1"
+    "uglify-js": "*"
     nodeunit: "*"
     xmldom: "0.1.19"

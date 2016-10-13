@@ -12,13 +12,20 @@ task 'package', 'Convert package.coffee to package.json', ->
 task 'build', 'Build the .js files', (options) ->
   console.log('Compiling Coffee from src')
   compile = (dest) ->
-    mv '-f', "static/javascripts/#{dest}.js", "static/javascripts/#{dest}.uncompressed.js"
-#    makeUgly "static/javascripts/#{dest}.uncompressed.js", "static/javascripts/#{dest}.js"
-#    exec "rm static/javascripts/#{dest}.uncompressed.js"
+    fs.renameSync "static/javascripts/#{dest}.js", "static/javascripts/#{dest}.uncompressed.js"
+    makeUgly "static/javascripts/#{dest}.uncompressed.js", "static/javascripts/#{dest}.js"
+    exec "rm static/javascripts/#{dest}.uncompressed.js"
   exec "coffee --compile --output ./ src/server", (err, stdout, stderr) ->
     throw err if err
     console.log stdout + stderr
-#  exec "coffee --compile --output static/javascripts src/client", (err, stdout, stderr) ->
-#    throw err if err
-#    console.log stdout + stderr
-#    compile file[0...file.lastIndexOf('.')] for file in ls('src/client')
+  exec "coffee --compile --output static/javascripts src/client", (err, stdout, stderr) ->
+    throw err if err
+    console.log stdout + stderr
+    compile file[0...file.lastIndexOf('.')] for file in fs.readdirSync('src/client')
+    
+makeUgly = (infile, outfile) ->
+  uglify = require('uglify-js')
+  code = uglify.minify(infile).code
+  fs.writeFileSync(outfile, code)
+  console.log("Minified " + outfile)
+  
