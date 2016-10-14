@@ -22,6 +22,8 @@ The installation steps have been tested with Ubuntu:
 1. Install remaining libs: 
 
        `$ npm install`
+
+       `$ npm update`
 1. Compile code: 
 
        `$ cake build`
