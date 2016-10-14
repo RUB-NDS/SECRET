@@ -9,7 +9,7 @@ defaultHeaderVars = {
 renderSECRET = (req, res) ->
   headerVars = Object.assign({}, defaultHeaderVars) # clone
   headerVars.scripts = headerVars.scripts.concat(['webclient/xml.js', 'xmlEnc.js', 'plainDoc.js', 'encDoc.js', 'secret.js'])
-  headerVars.externalScripts = ['https://cloud.nds.rub.de:7021/scripts/kmswrapper.js']
+  headerVars.externalScripts = ['https://134.147.198.48:7021/scripts/kmswrapper.js']
   res.render('secret', {
     header: headerVars
     docId : 'encDoc'

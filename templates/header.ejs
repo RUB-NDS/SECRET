@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+        <title><%= header.title %></title>
+        <% header.scripts.forEach(function(script){ -%>
+        <script src="javascripts/<%= script %>"></script>
+        <% }) -%>
+        <% if (header.externalScripts != null) {header.externalScripts.forEach(function(script){ -%>
+        <script src="<%= script %>"></script>
+        <% })} -%>
+    </head>
+    <body>
+    <div id="container">
+        <div id="header">
+            <h1><%= header.title %></h1>
+        </div>

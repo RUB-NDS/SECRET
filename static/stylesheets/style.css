@@ -1,0 +1,192 @@
+* {
+	font-family: sans-serif;
+}
+body {
+	margin: 0px;
+	padding: 0px;
+	background: #F6F6F6;
+}
+body, p, td, th, input, textarea, select, option {
+	color: #000;
+	text-decoration: none;
+	font-size: 13px;
+}
+p {
+	margin-top: 0px;
+	margin-bottom: 20px;
+}
+p, ul, ol, li, td {
+	line-height: 18px;	
+}
+select, input[type='text'], input[type='password'], textarea, div[contenteditable='true'] {
+	background-color: #FFFFFF;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-khtml-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #DBDBDB;
+	padding: 4px;
+	color: #000;
+}
+option {
+	color: #000;
+}
+a, a:visited, a b {
+	color: #23A1D1;
+	text-decoration: underline;
+	cursor: pointer;
+}
+a:hover {
+	text-decoration: none;
+}
+img {
+	margin: 0;
+	padding: 0;
+}
+a img {
+	border: none;
+}
+b, strong {
+	color: #555;
+}
+label {
+	cursor: pointer;
+}
+#container {
+	width: 960px;
+	margin: 0 auto;
+}
+#header {
+	height: 100px;
+	position: relative;
+}
+#header h1 {
+        height: 50px;
+        position: absolute; 
+        top: 26px; 
+        left: 250px;
+}
+#menu {
+	background: linear-gradient(to bottom, #39abd6, #2091bc) #444;
+	margin-bottom: 20px;
+	z-index: 99;
+	position: relative;
+	height: 45px;
+	-webkit-border-radius: 7px 7px 7px 7px;
+	-moz-border-radius: 7px 7px 7px 7px;
+	-khtml-border-radius: 7px 7px 7px 7px;
+	border-radius: 7px 7px 7px 7px;	
+	-webkit-box-shadow: 2px 2px 2px #CCCCCC;
+	-moz-box-shadow: 2px 2px 2px #CCCCCC;
+	box-shadow: 2px 2px 2px #CCCCCC;	
+}
+#menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	z-index: 100;
+	cursor: pointer;		
+}
+#menu a {
+	display: block;
+	color: #C5C5C5;
+	text-decoration: none;
+	padding: 5px;
+}
+#menu li a.top {
+        color: #FFFFFF;
+	padding: 0px 25px 0px 25px;
+	line-height: 45px;
+	margin: 0px 1px 0px 0px;
+	display: block;
+	text-shadow: 1px 1px #000;
+}
+#menu li a:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+#menu li.selected:hover > a {
+	clear: both;
+}
+#menu li.selected > a.top, #menu li:hover > a.top {
+	color: #FFFFFF;
+}
+#menu li {
+	float: left;
+	list-style: none;
+}
+#menu li ul {
+	position: absolute;
+	z-index: 100;
+}
+#menu li li {
+	clear: both;
+}
+#menu li ul a {
+	color: #FFFFFF;
+	width: 150px;
+	line-height: 20px;
+	padding-left: 10px;
+	vertical-align: middle;
+}
+#menu li ul ul {
+	margin: -30px 0 0 160px;
+}
+#menu li li:hover {
+	background: #333;
+}
+#menu ul ul {
+	display: none;
+}
+#menu ul li:hover > ul, #menu > ul li.hover > ul {
+	display: block;
+}
+#content {
+	margin-bottom: 20px;
+	overflow: hidden;
+	min-height: 400px;
+}
+#copyright {
+	text-align: center;
+	margin-bottom: 5px;
+}
+a.button, input.button {
+	cursor: pointer;
+	color: #FFF;
+	font-size: 13px;
+	background: linear-gradient(to bottom, #39abd6, #2091bc) #444;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-khtml-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	-webkit-box-shadow: 1px 2px 2px #DDDDDD;
+	-moz-box-shadow: 1px 2px 2px #DDDDDD;
+	box-shadow: 1px 2px 2px #DDDDDD;
+	margin-bottom: 2px;
+}
+a.button {
+	display: inline-block;
+	text-decoration: none;
+	padding: 4px 11px 4px 11px;	
+}
+.label {
+    background-color: #BFBFBF;
+    border: 2px solid #000;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 1px 3px 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.label.impo {
+    background-color: #C43C35;
+}
+.label.warn {
+    background-color: #F89406;
+}
+.label.succ {
+    background-color: #46A546;
+}
+.label.noti {
+    background-color: #62CFFC;
+}
