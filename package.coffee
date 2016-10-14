@@ -16,7 +16,7 @@ module.exports =
   
   dependencies: 
     express: "~4.0.0"
-    "coffee-script": "~1.8.x"
+    "coffee-script": "~1"
     "serve-favicon": "*"
     morgan: "~1.0.0"
     "cookie-parser": "~1.0.1"
