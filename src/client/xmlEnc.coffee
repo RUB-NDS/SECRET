@@ -41,36 +41,45 @@ class XMLEncryption
       throw "Type unknown. Use 'element' or 'content'."
     type = @types[type]
     # Technically, the ID-attribute has to be uppercase ("Id"), but then document.getElementById() is not usable. I'm relxing the standard here ;)
-    result = "<#{@xenc_prefix}:EncryptedData #{@xenc_ns} id='#{id}' Type='#{type}'>"
-    result += "<#{@xenc_prefix}:EncryptionMethod Algorithm='#{@dataAlgoURI}'/>"
-    result += "<#{@ds_prefix}:KeyInfo #{@ds_ns}>"
-    result += "<#{@ds_prefix}:RetrievalMethod Type='#{@encryptedKeyURI}' URI='##{keyID}'/>" for keyID in keyIDs
-    result += "</#{@ds_prefix}:KeyInfo>"
+#    result = "<#{@xenc_prefix}:EncryptedData #{@xenc_ns} id='#{id}' Type='#{type}'>"
+    result = "<ed id='#{id}'>"
+#    result += "<#{@xenc_prefix}:EncryptionMethod Algorithm='#{@dataAlgoURI}'/>"
+#    result += "<#{@ds_prefix}:KeyInfo #{@ds_ns}>"
+#    result += "<#{@ds_prefix}:RetrievalMethod Type='#{@encryptedKeyURI}' URI='##{keyID}'/>" for keyID in keyIDs
+#    result += "<rm URI='##{keyID}'/>" for keyID in keyIDs
+#    result += "</#{@ds_prefix}:KeyInfo>"
     result += @_createCipherData(ciphertext)
-    result += "</#{@xenc_prefix}:EncryptedData>"
+#    result += "</#{@xenc_prefix}:EncryptedData>"
+    result += "</ed>"
     return result
 
   createEncryptedKey: (id, ciphertext, dataIDs, keyName) ->
     @_check(param) for param in arguments
     @_check(dataID) for dataID in dataIDs
     # Technically, the ID-attribute has to be uppercase ("Id"), but then document.getElementById() is not usable. I'm relxing the standard here ;)
-    result = "<#{@xenc_prefix}:EncryptedKey #{@xenc_ns} id='#{id}'>"
-    result += "<#{@xenc_prefix}:EncryptionMethod Algorithm='#{@keyAlgoURI}'/>"
+#    result = "<#{@xenc_prefix}:EncryptedKey #{@xenc_ns} id='#{id}'>"
+    result = "<ek id='#{id}'>"
+#    result += "<#{@xenc_prefix}:EncryptionMethod Algorithm='#{@keyAlgoURI}'/>"
     result += @_createCipherData(ciphertext)
-    result += "<#{@xenc_prefix}:ReferenceList>"
-    result += "<#{@xenc_prefix}:DataReference URI='##{dataID}'/>" for dataID in dataIDs
-    result += "</#{@xenc_prefix}:ReferenceList>"
-    result += "<#{@xenc_prefix}:CarriedKeyName>"
+#    result += "<#{@xenc_prefix}:ReferenceList>"
+#    result += "<#{@xenc_prefix}:DataReference URI='##{dataID}'/>" for dataID in dataIDs
+#    result += "</#{@xenc_prefix}:ReferenceList>"
+#    result += "<#{@xenc_prefix}:CarriedKeyName>"
+    result += "<ckn>"
     result += keyName
-    result += "</#{@xenc_prefix}:CarriedKeyName>"
-    result += "</#{@xenc_prefix}:EncryptedKey>"
+    result += "</ckn>"
+#    result += "</#{@xenc_prefix}:CarriedKeyName>"
+#    result += "</#{@xenc_prefix}:EncryptedKey>"
+    result += "</ek>"
     return result
 
   _createCipherData: (ciphertext) ->
     @_check(param) for param in arguments
-    result = "<#{@xenc_prefix}:CipherData><#{@xenc_prefix}:CipherValue>"
+#    result = "<#{@xenc_prefix}:CipherData><#{@xenc_prefix}:CipherValue>"
+    result = "<cv>"
     result += ciphertext
-    result += "</#{@xenc_prefix}:CipherValue></#{@xenc_prefix}:CipherData>"
+    result += "</cv>"
+#    result += "</#{@xenc_prefix}:CipherValue></#{@xenc_prefix}:CipherData>"
     return result
   
   generateNewEncryptedKey: (keyName, groupIDs, callback) ->
@@ -108,12 +117,13 @@ class XMLEncryption
         alert('You\'re not logged on with the extension! Click on the little blue circle with the key in the upper right corner!')
         throw {message: 'You\'re not logged on with the extension'}
       keyName = encData.id
-      cipherDatas = @xpath.getChildrenByNodeName(encData, "#{@xenc_prefix}:CipherData")
-      if cipherDatas.length == 0
-        throw "No <#{@xenc_prefix}:CipherData/> found"
-      if cipherDatas.length != 1
-        throw "More than one <#{@xenc_prefix}:CipherData/> per element is no valid XML Encryption"
-      cipherValues = @xpath.getChildrenByNodeName(cipherDatas[0], "#{@xenc_prefix}:CipherValue")
+#      cipherDatas = @xpath.getChildrenByNodeName(encData, "#{@xenc_prefix}:CipherData")
+#      if cipherDatas.length == 0
+#        throw "No <#{@xenc_prefix}:CipherData/> found"
+#      if cipherDatas.length != 1
+#        throw "More than one <#{@xenc_prefix}:CipherData/> per element is no valid XML Encryption"
+#      cipherValues = @xpath.getChildrenByNodeName(cipherDatas[0], "#{@xenc_prefix}:CipherValue")
+      cipherValues = @xpath.getChildrenByNodeName(encData, "cv")
       if cipherValues.length == 0
         throw "No <#{@xenc_prefix}:CipherValue/> found"
       if cipherValues.length != 1
@@ -150,38 +160,39 @@ class XMLEncryption
       
   importKeys: (encData, callback) ->
     return callback({}) if encData.id of @importedKeyIDs
-    keyInfos = @xpath.getChildrenByNodeName(encData, "#{@ds_prefix}:KeyInfo")
-    if keyInfos.length == 0
-      throw "No <#{@ds_prefix}:KeyInfo/> found"
-    if keyInfos.length != 1
-      throw "More than one <#{@ds_prefix}:KeyInfo/> per element is no valid XML Encryption"
-    keyInfo = keyInfos[0]
-    retrievalMethods = @xpath.getChildrenByNodeName(keyInfo, "#{@ds_prefix}:RetrievalMethod")
-    if retrievalMethods.length == 0
-      throw "No <#{@ds_prefix}:RetrievalMethod/> found. All other children of <#{@ds_prefix}:KeyInfo/> are not supported"
-    encKeyIDs = []
-    for retrievalMethod in retrievalMethods
-      if retrievalMethod.attributes["Type"].value != @encryptedKeyURI
-        throw "RetrievalMethod #{retrievalMethod.attributes["Type"].value} not supported"
-      if not retrievalMethod.attributes["URI"]? or retrievalMethod.attributes["URI"].value[0] != '#'
-        throw "No ID-based reference found. External references are not supported"
-      encKeyIDs.push(retrievalMethod.attributes["URI"].value.substring(1))
-    if encKeyIDs.length == 0
-      throw "No references to encrypted keys found"
+#    keyInfos = @xpath.getChildrenByNodeName(encData, "#{@ds_prefix}:KeyInfo")
+#    if keyInfos.length == 0
+#      throw "No <#{@ds_prefix}:KeyInfo/> found"
+#    if keyInfos.length != 1
+#      throw "More than one <#{@ds_prefix}:KeyInfo/> per element is no valid XML Encryption"
+#    keyInfo = keyInfos[0]
+#    retrievalMethods = @xpath.getChildrenByNodeName(keyInfo, "#{@ds_prefix}:RetrievalMethod")
+#    if retrievalMethods.length == 0
+#      throw "No <#{@ds_prefix}:RetrievalMethod/> found. All other children of <#{@ds_prefix}:KeyInfo/> are not supported"
+#    encKeyIDs = []
+#    for retrievalMethod in retrievalMethods
+#      if retrievalMethod.attributes["Type"].value != @encryptedKeyURI
+#        throw "RetrievalMethod #{retrievalMethod.attributes["Type"].value} not supported"
+#      if not retrievalMethod.attributes["URI"]? or retrievalMethod.attributes["URI"].value[0] != '#'
+#        throw "No ID-based reference found. External references are not supported"
+#      encKeyIDs.push(retrievalMethod.attributes["URI"].value.substring(1))
+#    if encKeyIDs.length == 0
+#      throw "No references to encrypted keys found"
     encKeyArray = []
-    for encKeyID in encKeyIDs
+    for encKeyID in (encKey.attributes['id'].value for encKey in @xpath.getChildrenByNodeName(encData.parentNode, 'ek'))
       encKey = encData.ownerDocument.getElementById(encKeyID) # works because we use lowercase IDs (see xml_enc.coffee)
       if not encKey?
         console.warn("Dead reference to encrypted key found (#{encKeyID})")
         continue
-      encMethods = @xpath.getChildrenByNodeName(encKey, "#{@xenc_prefix}:EncryptionMethod")
-      if encMethods.length == 0
-        throw "No <#{@xenc_prefix}:EncryptionMethod/> found"
-      if encMethods.length != 1
-        throw "More than one <#{@xenc_prefix}:EncryptionMethod/> per element is no valid XML Encryption"
-      if not encMethods[0].attributes["Algorithm"]? or encMethods[0].attributes["Algorithm"].value != @keyAlgoURI
-        throw "Encryption method #{encMethods[0].attributes["Algorithm"].value} not supported"
-      carriedKeyNames = @xpath.getChildrenByNodeName(encKey, "#{@xenc_prefix}:CarriedKeyName")
+#      encMethods = @xpath.getChildrenByNodeName(encKey, "#{@xenc_prefix}:EncryptionMethod")
+#      if encMethods.length == 0
+#        throw "No <#{@xenc_prefix}:EncryptionMethod/> found"
+#      if encMethods.length != 1
+#        throw "More than one <#{@xenc_prefix}:EncryptionMethod/> per element is no valid XML Encryption"
+#      if not encMethods[0].attributes["Algorithm"]? or encMethods[0].attributes["Algorithm"].value != @keyAlgoURI
+#        throw "Encryption method #{encMethods[0].attributes["Algorithm"].value} not supported"
+#      carriedKeyNames = @xpath.getChildrenByNodeName(encKey, "#{@xenc_prefix}:CarriedKeyName")
+      carriedKeyNames = @xpath.getChildrenByNodeName(encKey, "ckn")
       if carriedKeyNames.length == 0
         throw "No <#{@xenc_prefix}:CarriedKeyName/> found"
       if carriedKeyNames.length != 1
@@ -194,12 +205,13 @@ class XMLEncryption
       callback(result)
   
   _extractCipherValue: (encType) ->
-    cipherDatas = @xpath.getChildrenByNodeName(encType, "#{@xenc_prefix}:CipherData")
-    if cipherDatas.length == 0
-      throw "No <#{@xenc_prefix}:CipherData/> found"
-    if cipherDatas.length != 1
-      throw "More than one <#{@xenc_prefix}:CipherData/> per element is no valid XML Encryption"
-    cipherValues = @xpath.getChildrenByNodeName(cipherDatas[0], "#{@xenc_prefix}:CipherValue")
+#    cipherDatas = @xpath.getChildrenByNodeName(encType, "#{@xenc_prefix}:CipherData")
+#    if cipherDatas.length == 0
+#      throw "No <#{@xenc_prefix}:CipherData/> found"
+#    if cipherDatas.length != 1
+#      throw "More than one <#{@xenc_prefix}:CipherData/> per element is no valid XML Encryption"
+#    cipherValues = @xpath.getChildrenByNodeName(cipherDatas[0], "#{@xenc_prefix}:CipherValue")
+    cipherValues = @xpath.getChildrenByNodeName(encType, "cv")
     if cipherValues.length == 0
       throw "No <#{@xenc_prefix}:CipherValue/> found"
     if cipherValues.length != 1
@@ -207,13 +219,13 @@ class XMLEncryption
     return cipherValues[0].textContent
   
   _checkEncryptionMethod: (encData) ->
-    encMethods = @xpath.getChildrenByNodeName(encData, "#{@xenc_prefix}:EncryptionMethod")
-    if encMethods.length == 0
-      throw "No <#{@xenc_prefix}:EncryptionMethod/> found"
-    if encMethods.length != 1
-      throw "More than one <#{@xenc_prefix}:EncryptionMethod/> per element is no valid XML Encryption"
-    if not encMethods[0].attributes["Algorithm"]? or encMethods[0].attributes["Algorithm"].value != @dataAlgoURI
-      throw "Encryption method #{encMethods[0].attributes["Algorithm"].value} not supported"
+#    encMethods = @xpath.getChildrenByNodeName(encData, "#{@xenc_prefix}:EncryptionMethod")
+#    if encMethods.length == 0
+#      throw "No <#{@xenc_prefix}:EncryptionMethod/> found"
+#    if encMethods.length != 1
+#      throw "More than one <#{@xenc_prefix}:EncryptionMethod/> per element is no valid XML Encryption"
+#    if not encMethods[0].attributes["Algorithm"]? or encMethods[0].attributes["Algorithm"].value != @dataAlgoURI
+#      throw "Encryption method #{encMethods[0].attributes["Algorithm"].value} not supported"
     return
     
 if require?
