@@ -29,6 +29,6 @@ module.exports =
     mysql: "~2.1.1"
   
   devDependencies:
-    "uglify-js": "*"
+    "uglify-js": "~2.7"
     nodeunit: "*"
     xmldom: "0.1.19"
