@@ -1,12 +1,12 @@
 express = require('express')
 router = express.Router()
 
-DEBUG = true
+DEBUG = false
 suffix = ''
 suffix = '.uncompressed' if DEBUG
 
 defaultHeaderVars = {
-  scripts: ['bcsocket.js', 'webclient/share#{suffix}.js']
+  scripts: ['bcsocket.js', "webclient/share#{suffix}.js"]
   title: 'SECRET - Secure Live Collaboration'
 }
 
@@ -26,7 +26,7 @@ router.get '/secret', renderSECRET
 
 router.get '/secret_plain', (req, res) ->
   headerVars = Object.assign({}, defaultHeaderVars) # clone
-  headerVars.scripts = defaultHeaderVars.scripts.concat(['webclient/xml#{suffix}.js', "viewXML#{suffix}.js"])
+  headerVars.scripts = defaultHeaderVars.scripts.concat(["webclient/xml#{suffix}.js", "viewXML#{suffix}.js"])
   res.render('secret_plain', {
     header: headerVars
     basePage: 'secret'
