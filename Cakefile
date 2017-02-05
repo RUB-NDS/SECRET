@@ -16,11 +16,13 @@ task 'build', 'Build the .js files', (options) ->
     makeUgly "static/javascripts/#{dest}.uncompressed.js", "static/javascripts/#{dest}.js"
     exec "rm static/javascripts/#{dest}.uncompressed.js"
   exec "coffee --compile --output ./ src/server", (err, stdout, stderr) ->
-    throw err if err
-    console.log stdout + stderr
+    if err
+      throw err 
+      console.log stdout + stderr
   exec "coffee --compile --output static/javascripts src/client", (err, stdout, stderr) ->
-    throw err if err
-    console.log stdout + stderr
+    if err
+      throw err 
+      console.log stdout + stderr
     compile file[0...file.lastIndexOf('.')] for file in fs.readdirSync('src/client')
     
 makeUgly = (infile, outfile) ->
