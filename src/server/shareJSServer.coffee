@@ -1,7 +1,7 @@
 class shareJSServer
   attachShareJS : (server) ->
     # import the ShareJS server
-    ShareJS = require('ShareJSXML').server   
+    ShareJS = require('sharejsxml').server   
 
     # create a settings object for our ShareJS server
     ShareJSOpts =

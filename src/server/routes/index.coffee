@@ -1,7 +1,7 @@
 express = require('express')
 router = express.Router()
 
-DEBUG = false
+DEBUG = true
 suffix = ''
 suffix = '.uncompressed' if DEBUG
 
@@ -12,8 +12,7 @@ defaultHeaderVars = {
 
 renderSECRET = (req, res) ->
   headerVars = Object.assign({}, defaultHeaderVars) # clone
-  headerVars.scripts = headerVars.scripts.concat(["webclient/xml#{suffix}.js", "xmlEnc#{suffix}.js", "plainDoc#{suffix}.js", "encDoc#{suffix}.js", "secret#{suffix}.js"])
-  headerVars.externalScripts = ['https://134.147.198.48:7021/scripts/kmswrapper.js']
+  headerVars.scripts = defaultHeaderVars.scripts.concat(["webclient/xml#{suffix}.js", "xmlsec-webcrypto.js", "cryptoProxy#{suffix}.js", "secret_v2#{suffix}.js"])
   res.render('secret', {
     header: headerVars
     docId : 'encDoc'

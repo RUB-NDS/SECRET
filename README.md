@@ -18,12 +18,13 @@ The installation steps have been tested with Ubuntu:
        `$ cake package`
 1. Install [ShareJSXML](https://github.com/RUB-NDS/ShareJSXML): 
 
-       `$ npm install /path/to/ShareJSXML`
+       `$ npm install /path/to/sharejsxml`
+1. Install [XMLSec-WebCrypto](https://github.com/RUB-NDS/XMLSec-WebCrypto): 
+
+       `$ npm install /path/to/xmlsec-webcrypto`
 1. Install remaining libs: 
 
        `$ npm install`
-
-       `$ npm update`
 1. Compile code: 
 
        `$ cake build`
@@ -31,8 +32,10 @@ The installation steps have been tested with Ubuntu:
 
        `$ ln -s ../../node_modules/browserchannel/dist/bcsocket.js ./static/javascripts`
        
-       `$ ln -s ../../node_modules/ShareJSXML/webclient/ ./static/javascripts`
-       
+       `$ ln -s ../../node_modules/sharejsxml/webclient/ ./static/javascripts`
+
+       `$ ln -s ../../node_modules/xmlsec-webcrypto/dist/xmlsec-webcrypto.js ./static/javascripts/`
+
 1. Start server (hint: in a `screen` with reduced permissions):
    - For development: `$ DEBUG=SECRET npm start`
    - For production:  `$ NODE_ENV=production npm start`

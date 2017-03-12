@@ -1,11 +1,12 @@
 if require?
-  PlainDocument = require './plainDocument'
-  XMLEncryption = require './xmlEnc'
+  Document = require './document'
 else
-  PlainDocument = window.exports.PlainDocument
-  XMLEncryption = window.exports.XMLEncryption
+  Document = window.exports.Document
 
-class EncDocument extends PlainDocument
+###
+An encrypted XML document for use with ShareJSXML
+###
+class EncryptedDocument extends Document
   constructor: (@doc) ->
     if not window.KMSWrapper?
       console.error 'You have to install the Google Chrome Extension for this to work'
