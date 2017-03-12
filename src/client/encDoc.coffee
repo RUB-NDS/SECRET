@@ -137,7 +137,8 @@ class EncDocument extends PlainDocument
     else
       part = encDOM.getElementById(partID)
       encData = part.firstChild
-      while encData?.nodeName != "#{@enc.xenc_prefix}:EncryptedData"
+#      while encData?.nodeName != "#{@enc.xenc_prefix}:EncryptedData"
+      while encData?.nodeName != "ed"
         encData = encData.nextSibling
       if not encData?
         throw 'Something terrible happened'
@@ -158,7 +159,8 @@ class EncDocument extends PlainDocument
       @doc.removeElement("/document#{@_getXPathForArray(array, true)}", callback)
     else
       array[0].n = 'encryptedpart'
-      array[array.length - 1].n = "#{@enc.xenc_prefix}:EncryptedData"
+#      array[array.length - 1].n = "#{@enc.xenc_prefix}:EncryptedData"
+      array[array.length - 1].n = "ed"
       if increase then array[array.length - 1].i++
       @doc.removeElement("/document#{@_getXPathForArray(array, false)}", callback)
  
@@ -169,7 +171,8 @@ class EncDocument extends PlainDocument
       @doc.insertTextAt("/document#{@_getXPath(elem, 1).replace('div','part')}/text()", pos, value, callback)
     else
       spanNum = Array.prototype.indexOf.call(elem.parentNode.childNodes, elem)
-      encData = @xpath.getChildrenByNodeName(encDOM.getElementById(partID), "#{@enc.xenc_prefix}:EncryptedData")[spanNum]
+#      encData = @xpath.getChildrenByNodeName(encDOM.getElementById(partID), "#{@enc.xenc_prefix}:EncryptedData")[spanNum]
+      encData = @xpath.getChildrenByNodeName(encDOM.getElementById(partID), "ed")[spanNum]
       @getReadonlyDecryptedDOM (decDOM) =>
         plainSpan = @xpath.getChildrenByNodeName(decDOM.getElementById(partID), 'span')[spanNum]
         plainSpan.textContent = plainSpan.textContent[...pos] + value + plainSpan.textContent[pos..]
@@ -183,7 +186,8 @@ class EncDocument extends PlainDocument
       @doc.removeTextAt("/document#{@_getXPath(elem, 1).replace('div','part')}/text()", pos, length, callback)
     else
       spanNum = Array.prototype.indexOf.call(elem.parentNode.childNodes, elem)
-      encData = @xpath.getChildrenByNodeName(encDOM.getElementById(partID), "#{@enc.xenc_prefix}:EncryptedData")[spanNum]
+#      encData = @xpath.getChildrenByNodeName(encDOM.getElementById(partID), "#{@enc.xenc_prefix}:EncryptedData")[spanNum]
+      encData = @xpath.getChildrenByNodeName(encDOM.getElementById(partID), "ed")[spanNum]
       @getReadonlyDecryptedDOM (decDOM) =>
         plainSpan = @xpath.getChildrenByNodeName(decDOM.getElementById(partID), 'span')[spanNum]
         plainSpan.textContent = plainSpan.textContent[...pos] + plainSpan.textContent[pos + length..]
@@ -208,7 +212,8 @@ class EncDocument extends PlainDocument
     idMap = {}
     remainingDecryptions = []
     for child in newDocumentElement.childNodes
-      encDatasForChild = @xpath.getChildrenByNodeName(child, "#{@enc.xenc_prefix}:EncryptedData")
+#      encDatasForChild = @xpath.getChildrenByNodeName(child, "#{@enc.xenc_prefix}:EncryptedData")
+      encDatasForChild = @xpath.getChildrenByNodeName(child, "ed")
       if encDatasForChild.length == 0
         continue
       idMap[child.getAttribute('id')] = newDoc.createElement(child.tagName.toLowerCase().replace('encrypted',''))
