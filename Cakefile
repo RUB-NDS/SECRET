@@ -14,7 +14,7 @@ task 'build', 'Build the .js files', (options) ->
   compile = (dest) ->
     fs.renameSync "static/javascripts/#{dest}.js", "static/javascripts/#{dest}.uncompressed.js"
     makeUgly "static/javascripts/#{dest}.uncompressed.js", "static/javascripts/#{dest}.js"
-    exec "rm static/javascripts/#{dest}.uncompressed.js"
+#    exec "rm static/javascripts/#{dest}.uncompressed.js"
   exec "coffee --compile --output ./ src/server", (err, stdout, stderr) ->
     if err
       throw err 

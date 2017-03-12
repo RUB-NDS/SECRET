@@ -31,5 +31,5 @@ module.exports =
     
   devDependencies:
     "uglify-js": "~2.7"
-    nodeunit: "*"
-    xmldom: "0.1.19"
+    "nodeunit": "*"
+    "xmldom": "0.1.19"
