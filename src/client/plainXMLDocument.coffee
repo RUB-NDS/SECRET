@@ -6,7 +6,7 @@ else
 ###
 An unencrypted XML document for use with ShareJSXML
 ###
-class PlainDocument extends Document
+class PlainXMLDocument extends Document
   constructor: (@doc) ->
 
   createRoot: (xmlString) ->
@@ -29,7 +29,7 @@ class PlainDocument extends Document
     return Promise.resolve(@doc.getReadonlyDOM())
   
 if require?
-  module.exports = PlainDocument
+  module.exports = PlainXMLDocument
 else
   window.exports ||= {}
-  window.exports.PlainDocument = PlainDocument
+  window.exports.PlainXMLDocument = PlainXMLDocument

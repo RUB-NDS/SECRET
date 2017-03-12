@@ -4,20 +4,23 @@ All methods are asynchroneus and return Promises.
 ###
 class Document
   createRoot: (xmlString) ->
-    throw 'Abstract class, not implemented'
+    abstractError()
     
   insertElementAt: (XPathToParent, position, XMLString) ->
-    throw 'Abstract class, not implemented'
+    abstractError()
     
   removeElement: (XPath) ->
-    throw 'Abstract class, not implemented'
+    abstractError()
     
   setElement: (XPathToParent, pos, XMLString) ->
-    throw 'Abstract class, not implemented'
+    abstractError()
     
   getDOM: () ->
-    throw 'Abstract class, not implemented'
+    abstractError()
   
+  abstractError: () ->
+    Promise.reject('Abstract class, not implemented')
+    
 if require?
   module.exports = Document
 else

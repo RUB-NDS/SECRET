@@ -6,7 +6,7 @@ else
 ###
 An encrypted XML document for use with ShareJSXML
 ###
-class EncryptedDocument extends Document
+class EncryptedXMLDocument extends Document
   constructor: (@doc) ->
     if not window.KMSWrapper?
       console.error 'You have to install the Google Chrome Extension for this to work'
@@ -274,7 +274,7 @@ class EncryptedDocument extends Document
     return s
   
 if require?
-  module.exports = EncDocument
+  module.exports = EncryptedXMLDocument
 else
   window.exports ||= {}
-  window.exports.EncDocument = EncDocument
+  window.exports.EncryptedXMLDocument = EncryptedXMLDocument
