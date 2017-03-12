@@ -18,7 +18,20 @@ p {
 p, ul, ol, li, td {
 	line-height: 18px;	
 }
-select, input[type='text'], input[type='password'], textarea, div[contenteditable='true'] {
+div.editfield {
+        width: 90%;
+        border: 1px dashed black;
+        float: left;
+        background-color: #FFFFFF;
+        -webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-khtml-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	padding: 4px;
+	color: #000;
+        margin-right: 3px;
+}
+select, input[type='text'], input[type='password'], textarea {
 	background-color: #FFFFFF;
 	-webkit-border-radius: 5px 5px 5px 5px;
 	-moz-border-radius: 5px 5px 5px 5px;
@@ -167,6 +180,12 @@ a.button {
 	display: inline-block;
 	text-decoration: none;
 	padding: 4px 11px 4px 11px;	
+}
+a.button .unlocked {
+	background: linear-gradient(to bottom, #39abd6, #2091bc) #444;
+}
+a.button .locked {
+	background: linear-gradient(to bottom, #2091bc, #39abd6) #444;
 }
 .label {
     background-color: #BFBFBF;

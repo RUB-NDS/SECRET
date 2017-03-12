@@ -10,9 +10,10 @@ window.sharejs.extendDoc 'attach', (divElem) ->
   else
     docExists = Promise.resolve() # this workaround can be removed once coffee-script supports the await-keyword
   docExists.then ->
-    setupEditor(encXMLDoc, editorDiv)
+    renderDocument(encXMLDoc, editorDiv).then ->
+      i = 1
     
-setupEditor = (encXMLDoc, editorDiv) ->
+renderDocument = (encXMLDoc, editorDiv) ->
   s = ''
   i = 1
   encXMLDoc.getDOM().then (dom) ->
@@ -21,7 +22,10 @@ setupEditor = (encXMLDoc, editorDiv) ->
         s += "<h3>Part #{i++} - "
         if child.getAttribute('x-encrypted') is 'true'
           s += 'Encrypted</h3>'
+          button = "<a class='button locked'>Decrypt</a>"
         else 
           s += 'Plaintext</h3>'
-        s += "<div id='#{child.getAttribute('id')}' style='width: 95%; border: 1px dashed black;' contenteditable='true'>#{child.innerHTML}</div>"
+          button = "<a class='button unlocked'>Encrypt</a>"
+        s += "<div id='#{child.getAttribute('id')}' class='editfield' contenteditable='true'>#{child.innerHTML}</div>"
+        s += button
     editorDiv.innerHTML = s
