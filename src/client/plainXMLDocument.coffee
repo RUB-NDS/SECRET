@@ -1,12 +1,7 @@
-if require?
-  Document = require './document'
-else
-  Document = window.exports.Document
-
 ###
-An unencrypted XML document for use with ShareJSXML
+An unencrypted XML document for use with ShareJSXML.
 ###
-class PlainXMLDocument extends Document
+class PlainXMLDocument
   constructor: (@doc) ->
 
   createRoot: (xmlString) ->
@@ -25,8 +20,12 @@ class PlainXMLDocument extends Document
     return new Promise (resolve, reject) =>
       @doc.setElement(XPathToParent, pos, XMLString, resolve)
     
-  getDOM: () ->
+  getDOM: ->
+    # since the encrypted document needs this function async, this one also returns a promise
     return Promise.resolve(@doc.getReadonlyDOM())
+  
+  getDoc: ->
+    return @doc
   
 if require?
   module.exports = PlainXMLDocument

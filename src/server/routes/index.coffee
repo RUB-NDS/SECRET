@@ -12,7 +12,7 @@ defaultHeaderVars = {
 
 renderSECRET = (req, res) ->
   headerVars = Object.assign({}, defaultHeaderVars) # clone
-  headerVars.scripts = defaultHeaderVars.scripts.concat(["webclient/xml#{suffix}.js", "xmlsec-webcrypto.js", "cryptoProxy#{suffix}.js", "secret_v2#{suffix}.js"])
+  headerVars.scripts = defaultHeaderVars.scripts.concat(["webclient/xml#{suffix}.js", "cryptoProxy#{suffix}.js", "xmlsec-webcrypto.js", "plainXMLDocument#{suffix}.js", "encryptedXMLDocument#{suffix}.js", "secret#{suffix}.js"])
   res.render('secret', {
     header: headerVars
     docId : 'encDoc'
