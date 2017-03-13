@@ -52,8 +52,11 @@ doEncButtonAction = (event) ->
     button.className = button.className.replace('unlocked', 'locked')
     button.textContent = 'Decrypt'
     caption.textContent = caption.textContent.replace('Plaintext', 'Encrypted')
+    encryptEditField(editField)
   else
     button.className = button.className.replace('locked', 'unlocked')
     button.textContent = 'Encrypt'
     caption.textContent = caption.textContent.replace('Encrypted', 'Plaintext')
     
+encryptEditField = (editField) ->
+  encXMLDoc.encryptElement("/document/part[@id='#{editField.id}']")

@@ -13,7 +13,19 @@ class EncryptedXMLDocument extends PlainXMLDocument
       throw 'XML Encryption library not found'
     if not window.webcryptoImpl?
       throw 'WebCryptoProxy not found'
-    @enc = new EncryptedXML();
+    @enc = new EncryptedXML()
+    window.webcryptoImpl.importKey("raw", new Uint8Array(16), {name: "AES-CBC"}, false, ["encrypt", "decrypt"]).then (keyObj) =>
+      @key = keyObj
+    
+  encryptElement: (XPath) ->
+    return new Promise (resolve, reject) =>
+      references = [new Reference(XPath)]
+      encParams = new window.EncryptionParams
+      encParams.setReferences(references)
+      encParams.setSymmetricKey(@key)
+      @getDOM().then (dom) =>
+        @enc.encrypt(dom, encParams.getEncryptionInfo()).then (cipher) ->
+          i = cipher
   
 if require?
   module.exports = EncryptedXMLDocument
