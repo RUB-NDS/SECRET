@@ -162,7 +162,7 @@ label {
 	text-align: center;
 	margin-bottom: 5px;
 }
-a.button, input.button {
+.button {
 	cursor: pointer;
 	color: #FFF;
 	font-size: 13px;
@@ -179,12 +179,13 @@ a.button, input.button {
 a.button {
 	display: inline-block;
 	text-decoration: none;
-	padding: 4px 11px 4px 11px;	
+	padding: 4px 11px 4px 11px;
+        color: #FFF;
 }
-a.button .unlocked {
+a.button.unlocked {
 	background: linear-gradient(to bottom, #39abd6, #2091bc) #444;
 }
-a.button .locked {
+a.button.locked {
 	background: linear-gradient(to bottom, #2091bc, #39abd6) #444;
 }
 .label {

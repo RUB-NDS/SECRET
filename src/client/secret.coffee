@@ -10,22 +10,50 @@ window.sharejs.extendDoc 'attach', (divElem) ->
   else
     docExists = Promise.resolve() # this workaround can be removed once coffee-script supports the await-keyword
   docExists.then ->
-    renderDocument(encXMLDoc, editorDiv).then ->
-      i = 1
-    
+    renderDocument(encXMLDoc, editorDiv)
+
 renderDocument = (encXMLDoc, editorDiv) ->
   s = ''
   i = 1
   encXMLDoc.getDOM().then (dom) ->
     for child in dom.documentElement.childNodes
       if child.nodeName isnt '#text'
-        s += "<h3>Part #{i++} - "
+        caption = editorDiv.ownerDocument.createElement('h3')
+        caption.textContent = "Part #{i++} - "
+        button = editorDiv.ownerDocument.createElement('a')
+        button.classList.add('button')
+        button.onclick = doEncButtonAction
+        editField = editorDiv.ownerDocument.createElement('div')
+        editField.id = child.getAttribute('id')
+        editField.classList.add('editfield')
+        editField.setAttribute('contenteditable', 'true')
+        for grandchild in child.childNodes
+          if grandchild.nodeName is 'span'
+            span = editorDiv.ownerDocument.createElement('span')
+            span.textContent = grandchild.textContent
+            editField.appendChild(span)
         if child.getAttribute('x-encrypted') is 'true'
-          s += 'Encrypted</h3>'
-          button = "<a class='button locked'>Decrypt</a>"
-        else 
-          s += 'Plaintext</h3>'
-          button = "<a class='button unlocked'>Encrypt</a>"
-        s += "<div id='#{child.getAttribute('id')}' class='editfield' contenteditable='true'>#{child.innerHTML}</div>"
-        s += button
-    editorDiv.innerHTML = s
+          caption.textContent += 'Encrypted'
+          button.classList.add('locked')
+          button.textContent = 'Decrypt'
+        else
+          caption.textContent += 'Plaintext'
+          button.classList.add('unlocked')
+          button.textContent = 'Encrypt'
+        editorDiv.appendChild(caption)
+        editorDiv.appendChild(editField)
+        editorDiv.appendChild(button)
+
+doEncButtonAction = (event) ->
+  button = event.target
+  editField = button.previousSibling
+  caption = editField.previousSibling
+  if button.textContent is 'Encrypt'
+    button.className = button.className.replace('unlocked', 'locked')
+    button.textContent = 'Decrypt'
+    caption.textContent = caption.textContent.replace('Plaintext', 'Encrypted')
+  else
+    button.className = button.className.replace('locked', 'unlocked')
+    button.textContent = 'Encrypt'
+    caption.textContent = caption.textContent.replace('Encrypted', 'Plaintext')
+    
