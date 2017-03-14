@@ -1,5 +1,5 @@
 editorDiv = shareJSXMLDoc = encXMLDoc = null
-defaultXML = "<document><part id='e9a'><span>abc</span><span>def</span></part><part id='b7d'><span>xyz</span><span>ijk</span><span>opq</span></part><part id='f7c'><span>123</span></part></document>"
+defaultXML = "<?xml version='1.0'?><document><part id='e9a'><span>abc</span><span>def</span></part><part id='b7d'><span>xyz</span><span>ijk</span><span>opq</span></part><part id='f7c'><span>123</span></part></document>"
 
 window.sharejs.extendDoc 'attach', (divElem) ->
   shareJSXMLDoc = this
@@ -49,10 +49,10 @@ doEncButtonAction = (event) ->
   editField = button.previousSibling
   caption = editField.previousSibling
   if button.textContent is 'Encrypt'
-    button.className = button.className.replace('unlocked', 'locked')
-    button.textContent = 'Decrypt'
-    caption.textContent = caption.textContent.replace('Plaintext', 'Encrypted')
-    encryptEditField(editField)
+    encryptEditField(editField).then ->
+      button.className = button.className.replace('unlocked', 'locked')
+      button.textContent = 'Decrypt'
+      caption.textContent = caption.textContent.replace('Plaintext', 'Encrypted')
   else
     button.className = button.className.replace('locked', 'unlocked')
     button.textContent = 'Encrypt'
