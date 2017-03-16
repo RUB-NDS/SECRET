@@ -1,0 +1,12 @@
+{
+    "CryptoEngine": "sw",
+    "encryptionKey": "[Insert 64 hex-chars here]",
+	"DatabaseEngine": "pgsql",
+    "connection": {
+        "host": "127.0.0.1",
+        "port": "5432",
+        "user": "[DB-Username]",
+        "password": "[DB-Password]",
+        "SSL": "disable"
+    }
+}
