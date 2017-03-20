@@ -14,21 +14,21 @@ module.exports =
     test:  "cake test"
     start: "node ./bin/www"
   
-  dependencies: 
-    express: "~4.0.0"
-    "coffee-script": "~1"
-    "serve-favicon": "*"
-    morgan: "~1.0.0"
-    "cookie-parser": "~1.0.1"
-    "body-parser": "~1.0.0"
-    debug: "~0.7.4"
-    ejs: "~0.8.5"
-    browserchannel: "~1.2.0"
-    connect: "~2.15.0"
-    ShareJSXML: ">0.9.16"
-    mysql: "~2.1.1"
-  
+  dependencies:
+    "body-parser": "1.0.2"
+    "browserchannel": "1.2.0"
+    "coffee-script": "1.8.0"
+    "connect": "2.15.0"
+    "cookie-parser": "1.0.1"
+    "debug": "0.7.4"
+    "ejs": "0.8.8"
+    "express": "4.0.0"
+    "morgan": "1.0.1"
+    "mysql": "2.1.1"
+    "serve-favicon": "2.3.0"
+    "sharejsxml": "0.9.16"
+    
   devDependencies:
     "uglify-js": "~2.7"
-    nodeunit: "*"
+    nodeunit: "0.9.1"
     xmldom: "0.1.19"
