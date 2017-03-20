@@ -26,7 +26,7 @@ module.exports =
     "morgan": "1.0.1"
     "mysql": "2.1.1"
     "serve-favicon": "2.3.0"
-    "sharejsxml": "0.9.16"
+    "sharejsxml": "0.9.23"
     
   devDependencies:
     "uglify-js": "~2.7"
