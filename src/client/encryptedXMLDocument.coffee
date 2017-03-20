@@ -42,20 +42,41 @@ class EncryptedXMLDocument extends PlainXMLDocument
       encParams.setReferences(references)
       encParams.setSymmetricKey(@key)
       @getDOM().then (dom) =>
-        nodes = @xpath.select(XPath, dom)
-        if nodes.length is 0
-          return reject 'XPath selected nothing'
-        if nodes.length > 1
-          return reject 'XPath selected more than one node'
-        node = nodes[0].cloneNode(true)
+        try
+          origNode = @__XPathSelectSingle(XPath, dom)
+        catch error
+          return reject error
+        node = origNode.cloneNode(true)
         node.setAttribute('x-encrypted', 'true')
         newDOM = window.utils.parseXML('<d />')
         newDOM.documentElement.appendChild(node)
         @enc.encrypt(node, encParams.getEncryptionInfo()).then =>
           xPathToParent = XPath.split('/')[...-1].join('/')
-          pos = Array.prototype.slice.call(nodes[0].parentElement.childNodes).indexOf(nodes[0]) + 1
+          pos = Array.prototype.slice.call(origNode.parentElement.childNodes).indexOf(origNode) + 1
           xmlString = @serializer.serializeToString(newDOM.documentElement.childNodes[0])          
           @doc.setElement(xPathToParent, pos, xmlString, resolve)
+          
+  decryptElement: (XPath) ->
+    return new Promise (resolve, reject) =>
+      @getDOM().then (dom) =>
+        try
+          origNode = @__XPathSelectSingle(XPath, dom)
+        catch error
+          return reject error
+        node = origNode.cloneNode(true)
+        node.removeAttribute('x-encrypted')
+        xPathToParent = XPath.split('/')[...-1].join('/')
+        pos = Array.prototype.slice.call(origNode.parentElement.childNodes).indexOf(origNode) + 1
+        xmlString = @serializer.serializeToString(node)
+        @doc.setElement(xPathToParent, pos, xmlString, resolve)
+          
+  __XPathSelectSingle: (XPath, dom) ->
+    nodes = @xpath.select(XPath, dom)
+    if nodes.length is 0
+      throw new Error 'XPath selected nothing'
+    if nodes.length > 1
+      throw new Error 'XPath selected more than one node'
+    return nodes[0]
   
 if require?
   module.exports = EncryptedXMLDocument

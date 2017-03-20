@@ -22,7 +22,7 @@ renderDocument = (encXMLDoc, editorDiv) ->
         caption.textContent = "Part #{i++} - "
         button = editorDiv.ownerDocument.createElement('a')
         button.classList.add('button')
-        button.onclick = doEncButtonAction
+        button.onclick = doEncDecButtonAction
         editField = editorDiv.ownerDocument.createElement('div')
         editField.id = child.getAttribute('id')
         editField.classList.add('editfield')
@@ -44,7 +44,7 @@ renderDocument = (encXMLDoc, editorDiv) ->
         editorDiv.appendChild(editField)
         editorDiv.appendChild(button)
 
-doEncButtonAction = (event) ->
+doEncDecButtonAction = (event) ->
   button = event.target
   editField = button.previousSibling
   caption = editField.previousSibling
@@ -54,9 +54,14 @@ doEncButtonAction = (event) ->
       button.textContent = 'Decrypt'
       caption.textContent = caption.textContent.replace('Plaintext', 'Encrypted')
   else
-    button.className = button.className.replace('locked', 'unlocked')
-    button.textContent = 'Encrypt'
-    caption.textContent = caption.textContent.replace('Encrypted', 'Plaintext')
+    if window.confirm('This action exposes the protected content to the server! Proceed?')
+      decryptEditField(editField).then ->
+        button.className = button.className.replace('locked', 'unlocked')
+        button.textContent = 'Encrypt'
+        caption.textContent = caption.textContent.replace('Encrypted', 'Plaintext')
     
 encryptEditField = (editField) ->
   encXMLDoc.encryptElement("/document/part[@id='#{editField.id}']")
+
+decryptEditField = (editField) ->
+  encXMLDoc.decryptElement("/document/part[@id='#{editField.id}']")
