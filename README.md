@@ -1,5 +1,5 @@
 # SECRET
-A Secure, Efﬁcient, and Collaborative Real-Time Web Editor
+A Secure, Efﬁcient, and Collaborative Real-Time Web Editor initially presented in this [ASIACCS paper](https://www.nds.rub.de/research/publications/secret-feasibility-secure-efficient-and-collaborat/). If you would like to evaluate the functionality, please use the [master branch](https://github.com/RUB-NDS/SECRET/tree/master). If you instead would like to take a look at the proof-of-concept demo that was evaluated for the paper, please use the [asiaccs2017 release](https://github.com/RUB-NDS/SECRET/releases/tag/asiaccs2017). The simple dummy keyserver of the proof-of-concept demo can be found in the [dummy-keyserver branch](https://github.com/RUB-NDS/SECRET/tree/dummy-keyserver).
 
 ## How to install
 The installation steps have been tested with Ubuntu:
