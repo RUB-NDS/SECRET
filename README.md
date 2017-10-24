@@ -32,6 +32,7 @@ The installation steps have been tested with Ubuntu:
 
         $ ln -s ../../node_modules/browserchannel/dist/bcsocket.js ./static/javascripts
         $ ln -s ../../node_modules/sharejsxml/webclient/ ./static/javascripts
+        $ ln -s ../../node_modules/xpath/xpath.js ./static/javascripts
         $ ln -s ../../node_modules/xmlsec-webcrypto/dist/xmlsec-webcrypto.js ./static/javascripts
        
 1. Start server (hint: in a `screen` with reduced permissions):

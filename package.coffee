@@ -26,7 +26,7 @@ module.exports =
     "morgan": "~1.0.0"
     "mysql": "~2.1.1"
     "serve-favicon": "*"
-    "sharejsxml": "*"
+    "sharejsxml": "0.10.1"
     "xmlsec-webcrypto": "*"
     
   devDependencies:

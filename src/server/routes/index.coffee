@@ -12,7 +12,7 @@ defaultHeaderVars = {
 
 renderSECRET = (req, res) ->
   headerVars = Object.assign({}, defaultHeaderVars) # clone
-  headerVars.scripts = defaultHeaderVars.scripts.concat(["webclient/xml#{suffix}.js", "cryptoProxy#{suffix}.js", "xmlsec-webcrypto.js", "plainXMLDocument#{suffix}.js", "encryptedXMLDocument#{suffix}.js", "secret#{suffix}.js"])
+  headerVars.scripts = defaultHeaderVars.scripts.concat(["xpath.js", "webclient/xml#{suffix}.js", "cryptoProxy#{suffix}.js", "xmlsec-webcrypto.js", "plainXMLDocument#{suffix}.js", "encryptedXMLDocument#{suffix}.js", "secret#{suffix}.js"])
   res.render('secret', {
     header: headerVars
     docId : 'encDoc'
@@ -25,7 +25,7 @@ router.get '/secret', renderSECRET
 
 router.get '/secret_plain', (req, res) ->
   headerVars = Object.assign({}, defaultHeaderVars) # clone
-  headerVars.scripts = defaultHeaderVars.scripts.concat(["webclient/xml#{suffix}.js", "viewXML#{suffix}.js"])
+  headerVars.scripts = defaultHeaderVars.scripts.concat(["xpath.js", "webclient/xml#{suffix}.js", "viewXML#{suffix}.js"])
   res.render('secret_plain', {
     header: headerVars
     basePage: 'secret'
