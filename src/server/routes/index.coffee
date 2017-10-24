@@ -1,7 +1,7 @@
 express = require('express')
 router = express.Router()
 
-DEBUG = true
+DEBUG = false
 suffix = ''
 suffix = '.uncompressed' if DEBUG
 
